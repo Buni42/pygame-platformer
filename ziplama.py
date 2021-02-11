@@ -19,7 +19,7 @@ mixer.music.play(-1)
 pg.display.set_caption('ZipZip')
 icon = pg.image.load('ZipZip_icon.png')
 pg.display.set_icon(icon)
-bg = pg.image.load('War4.png')
+bg = pg.image.load('War4_r.png')
 restart_img = pg.image.load('restart_img.png')
 restart_img = pg.transform.scale(restart_img, (120, 100))
 
@@ -63,7 +63,7 @@ world_data = [
 
 #clock for fps control
 clock = pg.time.Clock()
-fps = 30
+fps = 60
 game_over = 0
 
 
@@ -454,8 +454,8 @@ class player():
                    neg = 1
                    if man.jumpP < 0:
                        neg = -1
-                   man.playery -= (man.jumpP ** 2) * 1 * neg
-                   man.jumpP -= 2.
+                   man.playery -= (man.jumpP ** 2) * self.jumpheight * neg
+                   man.jumpP -= 2
                else:
                    man.jump = False
                    man.jumpP = 10
@@ -584,6 +584,7 @@ class player():
         self.rect = ghost.get_rect()
         self.rect.y = playery
         self.in_air = True
+        self.jumpheight = 0.1
         
      
 
@@ -640,4 +641,5 @@ def redrawScreen():
 
    #update window
    pg.display.update()
+   
    
