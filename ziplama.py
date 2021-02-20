@@ -7,7 +7,9 @@ Created on Sun Sep  6 14:13:22 2020
 #from pydub import AudioSegment as ad
 import pygame as pg
 from pygame import mixer
+from levels import levels
 from Menu import *
+
 
 pg.init()
 
@@ -16,12 +18,12 @@ mixer.music.load('More.mp3')
 mixer.music.play(-1)
 
 #lay-out
-pg.display.set_caption('ZipZip')
-icon = pg.image.load('ZipZip_icon.png')
+pg.display.set_caption('to the moon')
+icon = pg.image.load('Moon_asset_r.png')
 pg.display.set_icon(icon)
-bg = pg.image.load('War4_r.png')
-restart_img = pg.image.load('restart_img.png')
-restart_img = pg.transform.scale(restart_img, (120, 100))
+bg = pg.image.load('sky.png')
+restart_img = pg.image.load('restart_icon.png')
+restart_img = pg.transform.scale(restart_img, (120, 120))
 
 # png's for player 
 char = pg.image.load('karakter.png')
@@ -29,42 +31,27 @@ ghost = pg.image.load('dead.png')
 
 
 #lists of png for animations     
-walkright = [ pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'),pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png')]
+walkright = [pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'),pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png')]
 walkleft = [pg.image.load('StandingLeft.png'), pg.image.load('StandingLeft.png'),pg.image.load('StandingLeft.png'), pg.image.load('StandingLeft.png'), pg.image.load('StandingLeft.png'), pg.image.load('StandingLeft.png'), pg.image.load('StandingLeft.png'), pg.image.load('StandingLeft.png'), pg.image.load('StandingLeft.png'), pg.image.load('StandingLeft.png')]
 walkabove = [pg.image.load('wb.png'), pg.image.load('wb.png'),pg.image.load('wb.png'), pg.image.load('wb.png'), pg.image.load('wb.png'), pg.image.load('wb.png'), pg.image.load('wb.png'), pg.image.load('wb.png'), pg.image.load('wb.png'), pg.image.load('wb.png')]
 walkdown = [pg.image.load('wu.png'), pg.image.load('wu.png'),pg.image.load('wu.png'), pg.image.load('wu.png'), pg.image.load('wu.png'), pg.image.load('wu.png'), pg.image.load('wu.png'), pg.image.load('wu.png'), pg.image.load('wu.png'), pg.image.load('wu.png')]
 
-dashR = [pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('d9.png'), pg.image.load('d9.png'),pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('d9.png'), pg.image.load('d9.png'),pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('d9.png'), pg.image.load('d9.png')]
-dashL = [pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('dr9.png'), pg.image.load('dr9.png'),pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('dr9.png'), pg.image.load('dr9.png'),pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('dr9.png'), pg.image.load('dr9.png')]
-dashUP = [pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('da9.png'), pg.image.load('da9.png'),pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('da9.png'), pg.image.load('da9.png'),pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('da9.png'), pg.image.load('da9.png')]
-dashDOWN = [pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('dan9.png'), pg.image.load('dan9.png'),pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('dan9.png'), pg.image.load('dan9.png'),pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('dan9.png'), pg.image.load('dan9.png')]
+accR = [pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('d9.png'), pg.image.load('d9.png'),pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('d9.png'), pg.image.load('d9.png'),pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('d9.png'), pg.image.load('d9.png')]
+accL = [pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('dr9.png'), pg.image.load('dr9.png'),pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('dr9.png'), pg.image.load('dr9.png'),pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('dr9.png'), pg.image.load('dr9.png')]
+accUP = [pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('da9.png'), pg.image.load('da9.png'),pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('da9.png'), pg.image.load('da9.png'),pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('da9.png'), pg.image.load('da9.png')]
+accDOWN = [pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('dan9.png'), pg.image.load('dan9.png'),pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('dan9.png'), pg.image.load('dan9.png'),pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('dan9.png'), pg.image.load('dan9.png')]
 
 
-#data for tiles and all for level 1
-world_data = [
-[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
-[1, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
-[1, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 1], 
-[1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 2, 2, 1], 
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 7, 0, 5, 0, 0, 0, 1], 
-[1, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 1], 
-[1, 7, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
-[1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 7, 0, 0, 0, 0, 1], 
-[1, 0, 2, 0, 0, 7, 0, 7, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1], 
-[1, 0, 0, 2, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 3, 0, 0, 0, 0, 1], 
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 1], 
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 7, 0, 0, 0, 0, 2, 0, 1], 
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
-[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-
-]
-
+# IMPORTANT GAME VARIABLES
 #clock for fps control
 clock = pg.time.Clock()
 fps = 60
+# game state
 game_over = 0
+# level control
+max_level = 3  #☻ index is 3 -> level 4
+levelindex = 1
+World_Data = levels[levelindex]
 
 
 class game():
@@ -80,14 +67,18 @@ class game():
         self.pch = pg.display.Info().current_h
         self.screen_size = [self.pcw, self.pch]
         
-        #fullscreen or 1000 X 800
+        # width and height of the window if not fullscreen
+        self.X1, self.Y1 = 1400, 800
+        
+        #fullscreen or not
         self.fullscreen = False
-        self.X1, self.Y1 = 1000, 800
         if self.fullscreen == True:
             self.window = pg.display.set_mode(self.screen_size, pg.FULLSCREEN)
         else:
             self.window = pg.display.set_mode((self.X1, self.Y1))
+            
         self.display = pg.Surface((self.pcw, self.pch))
+        
         #size of the tiles and obstacles 
         self.tile_size = 50
         
@@ -102,21 +93,38 @@ class game():
     
     def gameloop(self):
         global game_over
+        global level
+        global levelindex
+        global World_Data
+        
         # here is the game(loop)
         while self.playing:
             #fps
            clock.tick(fps)
            self.check_events()
            
-           #stops the infinte loop 
+           #stops the infinite loop 
            if self.START_KEY:
                 self.playing = False
                 
            #handles the controls and movement of the player/man
-           game_over = man.controls(game_over)
+           game_over = man.controls(game_over, levelindex)
            
-           #debugging 
-#           print(game_over)
+           # if player has completed the level
+           if game_over == 1:
+               # reset level and go to the next one
+               levelindex += 1
+               print(levelindex)
+               if levelindex <= max_level:
+                   # reset level           
+                   man.reset(410, 620, 64, 64) 
+                   World_Data.clear()
+                   World_Data = levels[levelindex]
+                   dunya = world(World_Data)
+                   game_over = 0
+               else:
+                   # restart game
+                   pass
            
            #blits screen and handles the animtions
            redrawScreen()
@@ -164,25 +172,53 @@ class game():
 
 class world():
     def __init__(self, data):
-        # normal red tiles 
-        self.tile_list = []
-        kirmizi_img = pg.image.load('ob0.png')
-      
+   # load PNG' s for tiles
+        
+        # sticky tiles normal
+        self.tile_list_stickydown = []
+        kirmizi_img = pg.image.load('Decor_Brick.png')
+        
+        # sticky tiles like a bat
+        self.tile_list_stickyup = []
+        stickyup = pg.transform.rotate(kirmizi_img, 180)       
+        
         # diken / thorn
         self.tile_list_diken = []
-            # level 1 diken
-        diken_img = pg.image.load('diken3.png')
-            # level 2 diken
+            # up (normal) thorn
+        diken_img = pg.image.load('Spikes.png')
+            # bloody thorn
         dikenB_img = pg.image.load('dikenk.png')
+            # down thorn
+        down_diken_img = pg.transform.rotate(diken_img, 180)
+            # horizontal : left thorn
+        left_diken_img = pg.transform.rotate(diken_img, 90)
+            # horizontal : left thorn
+        right_diken_img = pg.transform.rotate(diken_img, -90)
+            # right corner thorn
+        skose_diken_img = pg.image.load('skose_diken4.png')
+            # left corner thorn
+        lkose_diken_img = pg.image.load('lkose_diken3.png')
+            # up right corner thorn
+        upskose_diken_img = pg.transform.rotate(skose_diken_img, 90)
+            # up left corner thorn
+        uplkose_diken_img = pg.transform.rotate(lkose_diken_img, -90)
+
         
         # walls / stones
         self.tile_list_wall = []
-        stone_img = pg.image.load('stone.png')
+            # red/pink stone
+        stone_img = pg.image.load('Brick_01.png')
+        
+        # door / portal
+        self.tile_list_door = []
+            # looks like the moon
+        ay_door = pg.image.load('Moon_asset.png')
         
         rowP = 0
         for row in data :
             colP = 0
             for tile in row:
+                # stones
                 if tile == 1:
                     img = pg.transform.scale(stone_img, (asil.tile_size, asil.tile_size))
                     img_rect = img.get_rect()
@@ -191,22 +227,33 @@ class world():
                     tile = (img, img_rect)
                     self.tile_list_wall.append(tile)
                     
+                  # sticky tiles   
                 if tile == 2:
                     img = pg.transform.scale(kirmizi_img, (asil.tile_size, asil.tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = colP * asil.tile_size
                     img_rect.y = rowP * asil.tile_size 
                     tile = (img, img_rect)
-                    self.tile_list.append(tile)
+                    self.tile_list_stickydown.append(tile)
                     
+                if tile == 13:
+                    img = pg.transform.scale(stickyup, (asil.tile_size, asil.tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = colP * asil.tile_size
+                    img_rect.y = rowP * asil.tile_size 
+                    tile = (img, img_rect)
+                    self.tile_list_stickyup.append(tile)
+                
+                 # thorns  
                 if tile == 3:
                     img = pg.transform.scale(diken_img, (asil.tile_size, asil.tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = colP * asil.tile_size
                     img_rect.y = rowP * asil.tile_size 
                     tile = (img, img_rect)
-                    self.tile_list_diken.append(tile)      
+                    self.tile_list_diken.append(tile)   
                     
+                # thorn with blood on it
                 if tile == 4:
                     img = pg.transform.scale(dikenB_img, (asil.tile_size, asil.tile_size))
                     img_rect = img.get_rect()
@@ -214,7 +261,80 @@ class world():
                     img_rect.y = rowP * asil.tile_size 
                     tile = (img, img_rect)
                     self.tile_list_diken.append(tile)
-                          
+                    
+                # thorn looking down
+                if tile == 6:
+                    img = pg.transform.scale(down_diken_img, (asil.tile_size, asil.tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = colP * asil.tile_size
+                    img_rect.y = rowP * asil.tile_size 
+                    tile = (img, img_rect)
+                    self.tile_list_diken.append(tile)
+                    
+                # thorn looking left
+                if tile == 7:
+                    img = pg.transform.scale(left_diken_img, (asil.tile_size, asil.tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = colP * asil.tile_size
+                    img_rect.y = rowP * asil.tile_size 
+                    tile = (img, img_rect)
+                    self.tile_list_diken.append(tile)
+                    
+                # thorn looking right
+                if tile == 8:
+                    img = pg.transform.scale(right_diken_img, (asil.tile_size, asil.tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = colP * asil.tile_size
+                    img_rect.y = rowP * asil.tile_size 
+                    tile = (img, img_rect)
+                    self.tile_list_diken.append(tile)
+                
+                # thorn corner down right
+                if tile == 9:
+                    img = pg.transform.scale(skose_diken_img, (asil.tile_size, asil.tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = colP * asil.tile_size
+                    img_rect.y = rowP * asil.tile_size 
+                    tile = (img, img_rect)
+                    self.tile_list_diken.append(tile)
+                
+                # thorn corner down left
+                if tile == 10:
+                    img = pg.transform.scale(lkose_diken_img, (asil.tile_size, asil.tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = colP * asil.tile_size
+                    img_rect.y = rowP * asil.tile_size 
+                    tile = (img, img_rect)
+                    self.tile_list_diken.append(tile)
+                
+                # thorn corner up right
+                if tile == 11:
+                    img = pg.transform.scale(upskose_diken_img, (asil.tile_size, asil.tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = colP * asil.tile_size
+                    img_rect.y = rowP * asil.tile_size 
+                    tile = (img, img_rect)
+                    self.tile_list_diken.append(tile)
+                
+                # thorn corner up left
+                if tile == 12:
+                    img = pg.transform.scale(uplkose_diken_img, (asil.tile_size, asil.tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = colP * asil.tile_size
+                    img_rect.y = rowP * asil.tile_size 
+                    tile = (img, img_rect)
+                    self.tile_list_diken.append(tile)
+                
+                # doors
+                if tile == 5:
+                    img = pg.transform.scale(ay_door, (100, 100))
+                    img_rect = img.get_rect()
+                    img_rect.x = colP * asil.tile_size
+                    img_rect.y = rowP * asil.tile_size 
+                    tile = (img, img_rect)
+                    self.tile_list_door.append(tile)      
+
+                    
         
                 colP += 1
             rowP += 1
@@ -223,20 +343,31 @@ class world():
         # draws tiles from the created lists
     def draw(self):
         
-        for tile in self.tile_list:
+        for tile in self.tile_list_stickydown:
             asil.window.blit(tile[0], tile[1])
             # draws a green rectangle around the tiles
-            pg.draw.rect(asil.window, (0,255,0), tile[1], 2)
+#            pg.draw.rect(asil.window, (0,255,0), tile[1], 2)
+            
+        for tile in self.tile_list_stickyup:
+            asil.window.blit(tile[0], tile[1])
+            # draws a green rectangle around the tiles
+#            pg.draw.rect(asil.window, (0,255,0), tile[1], 2)
             
         for tile in self.tile_list_diken:
             asil.window.blit(tile[0], tile[1])
             # draws a green rectangle around the tiles
-            pg.draw.rect(asil.window, (0,255,0), tile[1], 2)
+#            pg.draw.rect(asil.window, (0,255,0), tile[1], 2)
             
         for tile in self.tile_list_wall:
             asil.window.blit(tile[0], tile[1])
             # draws a green rectangle around the tiles
-            pg.draw.rect(asil.window, (0,255,0), tile[1], 2)
+#            pg.draw.rect(asil.window, (0,255,0), tile[1], 2)
+            
+    
+        for tile in self.tile_list_door:
+            asil.window.blit(tile[0], tile[1])
+            # draws a green rectangle around the tiles
+#            pg.draw.rect(asil.window, (0,255,0), tile[1], 2)
            
             
 
@@ -320,31 +451,31 @@ class player():
 
 
 
-# dash animation
-    def dashA(self, screen):
-        if self.dashP + 1 >= fps:
-                   self.dashP = 0
+# accelerate animation
+    def accA(self, screen):
+        if self.accP + 1 >= fps:
+                   self.accP = 0
                    
         if self.standing == True:
             screen.blit(char, (self.playerx, self.playery))
             
         if self.standing == False:
         
-            if self.dashright:
-                       screen.blit(dashR[self.dashP//3], (self.playerx, self.playery))
-                       self.dashP += 1 
+            if self.accright:
+                       screen.blit(accR[self.accP//3], (self.playerx, self.playery))
+                       self.accP += 1 
                        
-            elif self.dashleft:
-                       screen.blit(dashL[self.dashP//3], (self.playerx, self.playery))
-                       self.dashP += 1 
+            elif self.accleft:
+                       screen.blit(accL[self.accP//3], (self.playerx, self.playery))
+                       self.accP += 1 
                        
-            elif self.dashup:
-                       screen.blit(dashUP[self.dashP//3], (self.playerx, self.playery))
-                       self.dashP += 1 
+            elif self.accup:
+                       screen.blit(accUP[self.accP//3], (self.playerx, self.playery))
+                       self.accP += 1 
                        
-            elif self.dashdown:
-                       screen.blit(dashDOWN[self.dashP//3], (self.playerx, self.playery))
-                       self.dashP += 1                        
+            elif self.accdown:
+                       screen.blit(accDOWN[self.accP//3], (self.playerx, self.playery))
+                       self.accP += 1                        
                 
         else:
             if self.jump == False:
@@ -361,170 +492,174 @@ class player():
                 screen.blit(pg.image.load('karakter.png'), (self.playerx, self.playery))
 
             
-                   
-# this could get its own class                  
-    def controls(self, game_over):
-#       global game_over  ->  bu da olabilir ama ben argument olarak yapmayi tercih ettim.
-       
-       if game_over >= 0:
+# controls and movement for the player                   
+    def controls(self, game_over, levelindex):
+       if game_over == 0:
            
             # controls and movement
            keys = pg.key.get_pressed()
            
            # go left
            if keys[pg.K_a]:
-               man.playerx -= man.vel
-               man.left = True
-               man.right = False
-               man.dashleft = False
-               man.dashright = False
-               man.dashdown = False
-               man.dashup = False
-               man.up = False
-               man.down = False
-               man.standing = False
+               self.playerx -= self.vel
+               self.left = True
+               self.right = False
+               self.accleft = False
+               self.accright = False
+               self.accdown = False
+               self.accup = False
+               self.up = False
+               self.down = False
+               self.standing = False
                
            # go right
            elif keys[pg.K_d]:   
-               man.playerx += man.vel 
-               man.left = False
-               man.right = True
-               man.dashdown = False
-               man.dashup = False
-               man.dashleft = False
-               man.dashright = False
-               man.up = False
-               man.down = False
-               man.standing = False
+               self.playerx += self.vel 
+               self.left = False
+               self.right = True
+               self.accdown = False
+               self.accup = False
+               self.accleft = False
+               self.accright = False
+               self.up = False
+               self.down = False
+               self.standing = False
                
             # go up   
            elif keys[pg.K_w]:
-               man.playery -= man.vel      
-               man.left = False
-               man.right = False
-               man.dashdown = False
-               man.dashup = False
-               man.dashleft = False
-               man.dashright = False
-               man.up = True
-               man.down = False
-               man.standing = False
-               man.dashP = 0
+               self.playery -= self.vel      
+               self.left = False
+               self.right = False
+               self.accdown = False
+               self.accup = False
+               self.accleft = False
+               self.accright = False
+               self.up = True
+               self.down = False
+               self.standing = False
+               self.accP = 0
          
            # go down   
            elif keys[pg.K_s]:  
-               man.playery += man.vel    
-               man.left = False
-               man.right = False
-               man.dashdown = False
-               man.dashup = False
-               man.dashleft = False
-               man.dashright = False
-               man.up = False
-               man.down = True
-               man.standing = False
-               man.dashP = 0
+               self.playery += self.vel    
+               self.left = False
+               self.right = False
+               self.accdown = False
+               self.accup = False
+               self.accleft = False
+               self.accright = False
+               self.up = False
+               self.down = True
+               self.standing = False
+               self.accP = 0
              
         
             # the player stopped moving
            else:      
-               man.standing = True
-               man.walkP = 0
-               man.dashP = 0
+               self.standing = True
+               self.walkP = 0
+               self.accP = 0
         
 # this whole chunk of code is to jump but I use it to stop sticking on the floor             
-           if not(man.jump):
+           if not(self.jump):
                    
                if keys[pg.K_SPACE]:
-                   man.jump = True
-                   man.left = False
-                   man.right = False
-                   man.walkP = 0
-                   man.dashP = 0
-                   man.dashleft = False
-                   man.dashright = False
-                   man.dashdown = False
-                   man.dashup = False
-                   man.up = False
-                   man.down = False
+                   self.jump = True
+                   self.left = False
+                   self.right = False
+                   self.walkP = 0
+                   self.accP = 0
+                   self.accleft = False
+                   self.accright = False
+                   self.accdown = False
+                   self.accup = False
+                   self.up = False
+                   self.down = False
                    
                    
            else:
-               if man.jumpP >= -10 and self.in_air == False:
+               if self.jumpP >= -10 and self.in_air == False:
                    neg = 1
-                   if man.jumpP < 0:
+                   if self.jumpP < 0:
                        neg = -1
-                   man.playery -= (man.jumpP ** 2) * self.jumpheight * neg
-                   man.jumpP -= 2
+                   self.playery -= (self.jumpP ** 2) * self.jumpheight * neg
+                   self.jumpP -= 2
                else:
-                   man.jump = False
-                   man.jumpP = 10
+                   self.jump = False
+                   self.jumpP = 10
     
     
 # i'd say the name says it all, but this is to accelerate                    
-           if man.dashup == False:
+           if self.accup == False:
                if keys[pg.K_LCTRL] and keys[pg.K_w]:
-                   man.left = True
-                   man.right = False
-                   man.dashleft = False
-                   man.dashright = False
-                   man.dashdown = False
-                   man.dashup = True
-                   man.up = False
-                   man.down = False
-                   man.standing = False
-                   dashny()
+                   self.left = True
+                   self.right = False
+                   self.accleft = False
+                   self.accright = False
+                   self.accdown = False
+                   self.accup = True
+                   self.up = False
+                   self.down = False
+                   self.standing = False
+                   accny()
                    
-           if man.dashdown == False :     
+           if self.accdown == False :     
                if keys[pg.K_LCTRL] and keys[pg.K_s]:
-                   man.left = True
-                   man.right = False
-                   man.dashleft = False
-                   man.dashright = False
-                   man.dashdown = True
-                   man.dashup = False
-                   man.up = False
-                   man.down = False
-                   man.standing = False
-                   dashy()
+                   self.left = True
+                   self.right = False
+                   self.accleft = False
+                   self.accright = False
+                   self.accdown = True
+                   self.accup = False
+                   self.up = False
+                   self.down = False
+                   self.standing = False
+                   accy()
                    
-           if man.dashleft == False  :    
+           if self.accleft == False  :    
                if keys[pg.K_LCTRL] and keys[pg.K_a]:
-                   man.left = True
-                   man.right = False
-                   man.dashleft = True
-                   man.dashright = False
-                   man.dashdown = False
-                   man.dashup = False
-                   man.up = False
-                   man.down = False
-                   man.standing = False
-                   dashnx()
+                   self.left = True
+                   self.right = False
+                   self.accleft = True
+                   self.accright = False
+                   self.accdown = False
+                   self.accup = False
+                   self.up = False
+                   self.down = False
+                   self.standing = False
+                   accnx()
                    
-           if man.dashright == False :        
+           if self.accright == False :        
                if keys[pg.K_LCTRL] and keys[pg.K_d]:
-                   man.left = True
-                   man.right = False
-                   man.dashleft = False
-                   man.dashright = True
-                   man.dashdown = False
-                   man.dashup = False
-                   man.up = False
-                   man.down = False
-                   man.standing = False
-                   dashx()
+                   self.left = True
+                   self.right = False
+                   self.accleft = False
+                   self.accright = True
+                   self.accdown = False
+                   self.accup = False
+                   self.up = False
+                   self.down = False
+                   self.standing = False
+                   accx()
 
 
            
 # check collision for ;
-           # normal tiles
+           # sticky tiles down to up
            self.in_air = True
-           for tile in dunya.tile_list:
+           for tile in dunya.tile_list_stickydown:
                if tile[1].colliderect(self.hitbox):
                    # wallrun gibi bisey
-                   if man.jumpP == 10:
+                   if self.jumpP == 10:
                        self.playery = tile[1].top - char.get_rect().bottom
                        self.in_air = False
+                       
+           # sticky tiles up to down
+           for tile in dunya.tile_list_stickyup:
+               if tile[1].colliderect(self.hitbox):
+                   # wallrun gibi bisey
+                   if self.jumpP == 10:
+                       self.playery = tile[1].bottom + char.get_rect().top
                        
             # diken
            for tile in dunya.tile_list_diken:
@@ -532,33 +667,41 @@ class player():
                    game_over = game_over - 1
                    #debugging 
                    print(game_over)
-             
+                   
+            # door
+           for tile in dunya.tile_list_door:
+               if tile[1].collidepoint(self.playerx, self.playery):
+                   game_over = 1
+                   # debug
+                   print(game_over)
+
             # walls
            for tile in dunya.tile_list_wall:
                
                # collision for the left side of the tiles i.e to the right
                if tile[1].collidepoint(self.playerx + asil.tile_size, self.playery):
                    self.reset(self.playerx, self.playery, self.width, self.height)
-                   self.playerx -= asil.tile_size
+                   self.playerx -= self.blowback
                    
                # collision for the right side of the tiles i.e to the left
-               if tile[1].collidepoint(self.playerx - 20, self.playery):
+               if tile[1].collidepoint(self.playerx - 16, self.playery):
                    self.reset(self.playerx, self.playery, self.width, self.height)
-                   self.playerx += asil.tile_size
+                   self.playerx += self.blowback
                    
                # collision for the below of the tiles i.e up
-               if tile[1].collidepoint(self.playerx , self.playery - asil.tile_size  //2):
+               if tile[1].collidepoint(self.playerx , self.playery - 16):
                    self.reset(self.playerx, self.playery, self.width, self.height)
-                   self.playery += asil.tile_size
+                   self.playery += self.blowback
            
                # collision for the above of the tiles i.e down
                if tile[1].collidepoint(self.playerx , self.playery +  asil.tile_size ):
                    self.reset(self.playerx, self.playery, self.width, self.height)
-                   self.playery -= asil.tile_size
+                   self.playery -= self.blowback
                
                 
                
-       return game_over        
+       return game_over    
+       return levelindex
 
 # sets the entire data of the player back to default
     def reset(self, playerx, playery, width, height):
@@ -574,46 +717,47 @@ class player():
         self.up = False
         self.down = False
         self.walkP = 0
-        self.dashleft = False
-        self.dashright = False
-        self.dashup = False
-        self.dashdown = False
-        self.dashP = 0
+        self.accleft = False
+        self.accright = False
+        self.accup = False
+        self.accdown = False
+        self.accP = 0
         self.standing = True
         self.hitbox = (self.playerx + 20, self.playery, 70, 70)
         self.rect = ghost.get_rect()
         self.rect.y = playery
         self.in_air = True
         self.jumpheight = 0.1
+        self.blowback = 50
         
      
 
 # these are the instances of the classes              
-asil = game()    
-dunya = world(world_data)
-man = player(400, 620, 64, 64)         
+asil = game()
+man = player(410, 620, 64, 64)         
 restart_button = button(asil.X1 // 2 , asil.Y1 // 2, restart_img)         
+dunya = world(World_Data)
 
 
-# code to accelerate in ;
+# accelerate ;
 # in x axis
-def dashx():
-    if man.dashright == True:
+def accx():
+    if man.accright == True:
         man.playerx += 15
         
 # in y axis
-def dashy():
-    if man.dashdown == True:
+def accy():
+    if man.accdown == True:
        man.playery += 15
 
 # in negatif x exis
-def dashnx():
-    if man.dashleft == True:
+def accnx():
+    if man.accleft == True:
        man.playerx -= 15
        
 # in negatif y axis
-def dashny():
-    if man.dashup == True:
+def accny():
+    if man.accup == True:
         man.playery -= 15
 
 
@@ -630,16 +774,15 @@ def redrawScreen():
       #if player is dead
    if game_over <= -1:
        if restart_button.draw():
-           man.reset(400, 620, 64, 64)
+           man.reset(410, 620, 64, 64)
            game_over = 0
    
    man.walkA(asil.window)
        
-   man.dashA(asil.window)
+   man.accA(asil.window)
    
    man.deadA(asil.window, game_over)
 
    #update window
    pg.display.update()
-   
    
