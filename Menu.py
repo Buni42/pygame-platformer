@@ -174,10 +174,10 @@ class Credits(menu):
             self.game.display.fill((0,0,0))
             self.game.display.blit(self.bg, ((0,0)))
             self.game.draw_text('explanation', 30, self.game.X1/2, self.game.Y1/2-20)
-            self.game.draw_text('In this game you are completely free to use ', 20, self.game.X1/2, self.game.Y1/2+10)
-            self.game.draw_text('everything in your hand to beat it ', 20, self.game.X1/2, self.game.Y1/2+30)
+            self.game.draw_text('In this game you have to get to the moon ', 20, self.game.X1/2, self.game.Y1/2+10)
+            self.game.draw_text('in order to move on ', 20, self.game.X1/2, self.game.Y1/2+30)
             self.game.draw_text('- WASD to move ', 23, self.game.X1/2 - 100, self.game.Y1/2+80)
-            self.game.draw_text('- SPACE to stop sticking on the floor ', 23, self.game.X1/2 - 10, self.game.Y1/2+110)
+            self.game.draw_text('- SPACE to stop sticking on certain tiles ', 23, self.game.X1/2 - 10, self.game.Y1/2+110)
             self.game.draw_text('- LEFT CONTROL to accelerate', 23, self.game.X1/2 - 30, self.game.Y1/2+140)
             self.blit_screen()
             
