@@ -93,7 +93,7 @@ fps = 60
 # game state
 game_over = 0
 # level control
-max_level = 4 #☻ index is 3 -> level 4
+max_level = 3 #☻ index is 3 -> level 4
 levelindex = 3
 World_Data = levels[levelindex]
 
