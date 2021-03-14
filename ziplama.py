@@ -7,15 +7,15 @@ Created on Sun Sep  6 14:13:22 2020
 #from pydub import AudioSegment as ad
 import pygame as pg
 from pygame import mixer
-from levels import levels
 from Menu import *
-
+import pickle
 
 pg.init()
 
 # music
 mixer.music.load('More.mp3')
-mixer.music.play(-1)
+mixer.music.play(-1, 3000)
+mixer.music.set_volume(0.85)
 
 #lay-out
 pg.display.set_caption('to the moon')
@@ -23,7 +23,7 @@ icon = pg.image.load('Moon_asset_r.png')
 pg.display.set_icon(icon)
 bg = pg.image.load('sky.png')
 restart_img = pg.image.load('restart_icon.png')
-restart_img = pg.transform.scale(restart_img, (120, 120))
+restart_img = pg.transform.scale(restart_img, (120, 125))
 
 # png's for player 
 char = pg.image.load('karakter.png')
@@ -49,9 +49,9 @@ fps = 60
 # game state
 game_over = 0
 # level control
-max_level = 3 #☻ index is 3 -> level 4
-levelindex = 3
-World_Data = levels[levelindex]
+max_level = 4
+level = 1
+
 
 
 class game():
@@ -93,9 +93,6 @@ class game():
     
     def gameloop(self):
         global game_over
-        global level
-        global levelindex
-        global World_Data
         
         # here is the game(loop)
         while self.playing:
@@ -107,23 +104,7 @@ class game():
                 self.playing = False
                 
            #handles the controls and movement of the player/man
-           game_over = man.controls(game_over, levelindex)
-           
-#           # if player has completed the level
-#           if game_over == 1:
-#               # reset level and go to the next one
-#               levelindex += 1
-#               print(levelindex)
-#               if levelindex <= max_level:
-#                   # reset level           
-#                   man.reset(410, 620, 64, 64) 
-##                   World_Data.clear()
-##                   World_Data = levels[levelindex]
-##                   dunya = world(World_Data)
-#                   game_over = 0
-#               else:
-#                   # restart game
-#                   pass
+           game_over = man.controls(game_over)
            
            #blits screen and handles the animtions
            redrawScreen()
@@ -154,7 +135,6 @@ class game():
                 if event.key == pg.K_w:
                     self.UP_KEY = True       
                     
-#            man.controls()
     #resets key back to false
     def reset_keys(self):
         self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY = False, False, False, False
@@ -435,7 +415,7 @@ class button():
             if pg.mouse.get_pressed()[0] == 1 and self.clicked == False:
                 action = True
                 # for debug purposes 
-                print('cicked')
+#                print('cicked')
                 self.clicked = True
         
             if pg.mouse.get_pressed()[0] == 0:
@@ -535,7 +515,7 @@ class player():
 
             
 # controls and movement for the player                   
-    def controls(self, game_over, levelindex):
+    def controls(self, game_over):
        if game_over == 0:
            
             # controls and movement
@@ -631,7 +611,7 @@ class player():
                    self.jumpP = 10
     
     
-# i'd say the name says it all, but this is to accelerate                    
+# this is to accelerate                    
            if self.accup == False:
                if keys[pg.K_LCTRL] and keys[pg.K_w]:
                    self.left = True
@@ -691,7 +671,6 @@ class player():
            self.in_air = True
            for tile in dunya.tile_list_catapultup:
                if tile[1].colliderect(self.hitbox):
-                   # wallrun gibi bisey
                    if self.jumpP == 10:
                        self.playery = tile[1].top - char.get_rect().bottom
                        self.in_air = False
@@ -699,14 +678,12 @@ class player():
            # catapult tiles up to down
            for tile in dunya.tile_list_catapultdown:
                if tile[1].colliderect(self.hitbox):
-                   # wallrun gibi bisey
                    if self.jumpP == 10:
                        self.playery = tile[1].bottom + char.get_rect().top
                        
             # catapult tiles left to right
            for tile in dunya.tile_list_catapultright:
                if tile[1].colliderect(self.hitbox):
-                   # wallrun gibi bisey
                    if self.jumpP == 10:
                        self.playerx = tile[1].left + char.get_rect().right
                        
@@ -714,7 +691,6 @@ class player():
             # catapult tiles right to left
            for tile in dunya.tile_list_catapultleft:
                if tile[1].colliderect(self.hitbox):
-                   # wallrun gibi bisey
                    if self.jumpP == 10:
                        self.playerx = tile[1].left - char.get_rect().right
                        
@@ -730,38 +706,34 @@ class player():
                if tile[1].collidepoint(self.playerx, self.playery):
                    game_over = 1
                    if game_over == 1:
-                       man.reset(410, 620, 64, 64) 
+                       man.reset(410, 620, 64, 64)
+                       dunya.tile_list_door.remove(tile)
                    # debug
                    print(game_over)
                    game_over = 0
 
-            # walls
+            # walls with blowback
            for tile in dunya.tile_list_wall:
                
                # collision for the left side of the tiles i.e to the right
                if tile[1].collidepoint(self.playerx + asil.tile_size, self.playery):
-                   self.reset(self.playerx, self.playery, self.width, self.height)
                    self.playerx -= self.blowback
                    
                # collision for the right side of the tiles i.e to the left
                if tile[1].collidepoint(self.playerx - 16, self.playery):
-                   self.reset(self.playerx, self.playery, self.width, self.height)
                    self.playerx += self.blowback
                    
                # collision for the below of the tiles i.e up
                if tile[1].collidepoint(self.playerx , self.playery - 16):
-                   self.reset(self.playerx, self.playery, self.width, self.height)
                    self.playery += self.blowback
            
                # collision for the above of the tiles i.e down
                if tile[1].collidepoint(self.playerx , self.playery +  asil.tile_size ):
-                   self.reset(self.playerx, self.playery, self.width, self.height)
                    self.playery -= self.blowback
                
                 
                
        return game_over    
-       return levelindex
 
 # sets the entire data of the player back to default
     def reset(self, playerx, playery, width, height):
@@ -795,7 +767,11 @@ class player():
 # these are the instances of the classes              
 asil = game()
 man = player(410, 620, 64, 64)         
-restart_button = button(asil.X1 // 2 , asil.Y1 // 2, restart_img)         
+restart_button = button(asil.X1 // 2 , asil.Y1 // 2, restart_img) 
+World_Data = []
+
+pickle_in = open(f'level{level}_data', 'rb')
+World_Data = pickle.load(pickle_in)
 dunya = world(World_Data)
 
 
@@ -845,4 +821,5 @@ def redrawScreen():
 
    #update window
    pg.display.update()
+   
    
