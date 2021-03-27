@@ -44,7 +44,7 @@ class mainmenu(menu):
         self.quity = self.mid_h + 90
         self.cursor.midtop = (self.startx + self.offset, self.starty)
         game.state = 'menu'
-        self.bg = pygame.image.load('raindrop_bg_r.png')
+        self.bg = pygame.image.load('img/raindrop_bg_r.png')
         
     def display_menu(self):
         self.run_display = True
@@ -125,7 +125,7 @@ class options(menu):
         self.volx, self.voly = self.mid_w, self.mid_h + 20
         self.controlsx, self.controlsy = self.mid_w, self.mid_h + 40
         self.cursor.midtop = (self.volx + self.offset, self.voly)
-        self.bg = pygame.image.load('raindrop_bg_r.png')
+        self.bg = pygame.image.load('img/raindrop_bg_r.png')
 
 
     def display_menu(self):
@@ -160,7 +160,7 @@ class options(menu):
 class Credits(menu):
     def __init__(self, game):
         menu.__init__(self, game)
-        self.bg = pygame.image.load('raindrop_bg_r.png')
+        self.bg = pygame.image.load('img/raindrop_bg_r.png')
 
         
     def display_menu(self):
@@ -174,8 +174,8 @@ class Credits(menu):
             self.game.display.fill((0,0,0))
             self.game.display.blit(self.bg, ((0,0)))
             self.game.draw_text('explanation', 30, self.game.X1/2, self.game.Y1/2-20)
-            self.game.draw_text('In this game you have to get to the moon ', 20, self.game.X1/2, self.game.Y1/2+10)
-            self.game.draw_text('in order to move on ', 20, self.game.X1/2, self.game.Y1/2+30)
+            self.game.draw_text('You have to complete levels and get to the moon within 120 seconds', 20, self.game.X1/2, self.game.Y1/2+10)
+            self.game.draw_text('Try to get every little moon too if you can. ', 20, self.game.X1/2, self.game.Y1/2+30)
             self.game.draw_text('- WASD to move ', 23, self.game.X1/2 - 100, self.game.Y1/2+80)
             self.game.draw_text('- LEFT CONTROL to accelerate', 23, self.game.X1/2 - 30, self.game.Y1/2+110)
             self.blit_screen()
@@ -187,7 +187,7 @@ class Quit(menu):
         self.yesx, self.yesy = self.mid_w, self.mid_h + 50
         self.nox, self.noy = self.mid_w, self.mid_h + 80
         self.cursor.midtop = (self.yesx + self.offset, self.yesy)
-        self.bg = pygame.image.load('raindrop_bg_r.png')
+        self.bg = pygame.image.load('img/raindrop_bg_r.png')
 
         
     def display_menu(self):
