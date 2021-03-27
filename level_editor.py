@@ -31,7 +31,7 @@ screen = pygame.display.set_mode((Screen_Width + Side_Margin, Screen_Height))
 pygame.display.set_caption('level editor')
 
 # png's
-kirmizi_img = pygame.image.load('Decor_Brick.png')
+kirmizi_img = pygame.image.load('img/Decor_Brick.png')
 
 catapultdown = pygame.transform.rotate(kirmizi_img, 180)      
 # catapult tiles left
@@ -39,7 +39,7 @@ catapultleft = pygame.transform.rotate(kirmizi_img, 90)
 # catapult tiles right
 catapultright = pygame.transform.rotate(kirmizi_img, -90) 
 
-diken_img = pygame.image.load('Spikes.png')
+diken_img = pygame.image.load('img/Spikes.png')
     # down thorn
 down_diken_img = pygame.transform.rotate(diken_img, 180)
     # horizontal : left thorn
@@ -47,28 +47,28 @@ left_diken_img = pygame.transform.rotate(diken_img, 90)
     # horizontal : left thorn
 right_diken_img = pygame.transform.rotate(diken_img, -90)
 
-skose_diken_img = pygame.image.load('skose_diken4.png')
+skose_diken_img = pygame.image.load('img/skose_diken4.png')
     # left corner thorn
-lkose_diken_img = pygame.image.load('lkose_diken3.png')
+lkose_diken_img = pygame.image.load('img/lkose_diken3.png')
     # up right corner thorn
 upskose_diken_img = pygame.transform.rotate(skose_diken_img, 90)
     # up left corner thorn
 uplkose_diken_img = pygame.transform.rotate(lkose_diken_img, -90)
 
-longest_diken = pygame.transform.scale(down_diken_img, (tile_size, int(tile_size * 2 )))
-long_diken = pygame.transform.scale(down_diken_img, (tile_size, int(tile_size * 1.65 )))
-
+longest_diken = pygame.image.load('img/dikenLongest.png')
+long_diken = pygame.image.load('img/dikenLong.png')
 # walls
-stone_img = pygame.image.load('Brick_01.png')
+stone_img = pygame.image.load('img/Brick_01.png')
 # door / portal
     # looks like the moon
-ay_door = pygame.image.load('Moon_asset.png')
-empty_it = pygame.image.load('dead.png')
-
+ay_door = pygame.image.load('img/Moon_asset.png')
+empty_it = pygame.image.load('img/dead.png')
+blackhole = pygame.image.load('img/BlackHole.png')
+last_portal = pygame.image.load('img/Back_moon.png')
 
 # load and save images
-load_img = pygame.image.load('l.png')
-save_img = pygame.image.load('s.png')
+load_img = pygame.image.load('img/l.png')
+save_img = pygame.image.load('img/s.png')
 
 font = pygame.font.SysFont('modernno20', 20, False, False)
 
@@ -81,7 +81,7 @@ def drawgrid():
         
         
 def bg_draw():
-    screen.blit(pygame.image.load('sky.png'), (0,0))
+    screen.blit(pygame.image.load('img/sky.png'), (0,0))
 
 #function for outputting text onto the screen
 def draw_text(text, font, text_col, x, y):
@@ -89,7 +89,7 @@ def draw_text(text, font, text_col, x, y):
 	screen.blit(img, (x, y))
 
 imgindex = 0 
-maximgindex = 15
+maximgindex = 17
 # store tiles in list
 img_list = [
     empty_it,
@@ -109,13 +109,15 @@ img_list = [
     catapultleft  ,
     longest_diken,
     catapultright ,
+    blackhole,
+    last_portal,
 ]
 
 while imgindex <= maximgindex:
     for i in img_list:
        img_list[imgindex] =  pygame.transform.scale(img_list[imgindex], (tile_size, tile_size))
        imgindex += 1
-       
+   
     
 #create empty tile list
 world_data = []
@@ -163,7 +165,7 @@ while run:
     draw_text('Press UP or DOWN to change level', font, (255,255,255), 1450, 650)
     
     if save_button.draw(screen):
-        pickle_out = open(f'level{level}_data', 'wb')
+        pickle_out = open(f'levels/level{level}_data', 'wb')
         pickle.dump(world_data, pickle_out)
         pickle_out.close()
     
@@ -177,7 +179,7 @@ while run:
             
     if load_button.draw(screen):
         world_data = []
-        pickle_in = open(f'level{level}_data', 'rb')
+        pickle_in = open(f'levels/level{level}_data', 'rb')
         world_data = pickle.load(pickle_in)
         
     # the csv method --> good if you want to read the file
