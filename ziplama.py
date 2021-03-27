@@ -9,50 +9,82 @@ import pygame as pg
 from pygame import mixer
 from Menu import *
 import pickle
+from os import path
+
 
 pg.init()
 
-# music
-mixer.music.load('More.mp3')
+# music 
+mixer.music.load('music/More.mp3')
 mixer.music.play(-1, 3000)
 mixer.music.set_volume(0.85)
 
+# effects
+portal_fx = mixer.Sound('music/portal_fx.wav')
+
+
 #lay-out
 pg.display.set_caption('to the moon')
-icon = pg.image.load('Moon_asset_r.png')
+icon = pg.image.load('img/Moon_asset_r.png')
 pg.display.set_icon(icon)
-bg = pg.image.load('sky.png')
-restart_img = pg.image.load('restart_icon.png')
+bg = pg.image.load('img/sky.png')
+restart_img = pg.image.load('img/restart_icon.png')
 restart_img = pg.transform.scale(restart_img, (120, 125))
+restartgame_img = pg.image.load('img/restartgame.png')
 
 # png's for player 
-char = pg.image.load('karakter.png')
-ghost = pg.image.load('dead.png')   
+char = pg.image.load('img/karakter.png')
+ghost = pg.image.load('img/dead.png')   
 
 
 #lists of png for animations     
-walkright = [pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'),pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png'), pg.image.load('StandingRight.png')]
-walkleft = [pg.image.load('StandingLeft.png'), pg.image.load('StandingLeft.png'),pg.image.load('StandingLeft.png'), pg.image.load('StandingLeft.png'), pg.image.load('StandingLeft.png'), pg.image.load('StandingLeft.png'), pg.image.load('StandingLeft.png'), pg.image.load('StandingLeft.png'), pg.image.load('StandingLeft.png'), pg.image.load('StandingLeft.png')]
-walkabove = [pg.image.load('wb.png'), pg.image.load('wb.png'),pg.image.load('wb.png'), pg.image.load('wb.png'), pg.image.load('wb.png'), pg.image.load('wb.png'), pg.image.load('wb.png'), pg.image.load('wb.png'), pg.image.load('wb.png'), pg.image.load('wb.png')]
-walkdown = [pg.image.load('wu.png'), pg.image.load('wu.png'),pg.image.load('wu.png'), pg.image.load('wu.png'), pg.image.load('wu.png'), pg.image.load('wu.png'), pg.image.load('wu.png'), pg.image.load('wu.png'), pg.image.load('wu.png'), pg.image.load('wu.png')]
+walkright = [pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png')]
+walkleft = [pg.image.load('img/StandingLeft.png'), pg.image.load('img/StandingLeft.png'),pg.image.load('img/StandingLeft.png'), pg.image.load('img/StandingLeft.png'), pg.image.load('img/StandingLeft.png'), pg.image.load('img/StandingLeft.png'), pg.image.load('img/StandingLeft.png'), pg.image.load('img/StandingLeft.png'), pg.image.load('img/StandingLeft.png'), pg.image.load('img/StandingLeft.png')]
+walkabove = [pg.image.load('img/wb.png'), pg.image.load('img/wb.png'),pg.image.load('img/wb.png'), pg.image.load('img/wb.png'), pg.image.load('img/wb.png'), pg.image.load('img/wb.png'), pg.image.load('img/wb.png'), pg.image.load('img/wb.png'), pg.image.load('img/wb.png'), pg.image.load('img/wb.png')]
+walkdown = [pg.image.load('img/wu.png'), pg.image.load('img/wu.png'),pg.image.load('img/wu.png'), pg.image.load('img/wu.png'), pg.image.load('img/wu.png'), pg.image.load('img/wu.png'), pg.image.load('img/wu.png'), pg.image.load('img/wu.png'), pg.image.load('img/wu.png'), pg.image.load('img/wu.png')]
 
-accR = [pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('d9.png'), pg.image.load('d9.png'),pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('d9.png'), pg.image.load('d9.png'),pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('d9.png'), pg.image.load('d9.png')]
-accL = [pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('dr9.png'), pg.image.load('dr9.png'),pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('dr9.png'), pg.image.load('dr9.png'),pg.image.load('d1.png'),pg.image.load('d2.png'), pg.image.load('d3.png'), pg.image.load('d4.png'), pg.image.load('d5.png'), pg.image.load('d6.png'),pg.image.load('d7.png'), pg.image.load('d8.png'), pg.image.load('dr9.png'), pg.image.load('dr9.png')]
-accUP = [pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('da9.png'), pg.image.load('da9.png'),pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('da9.png'), pg.image.load('da9.png'),pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('da9.png'), pg.image.load('da9.png')]
-accDOWN = [pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('dan9.png'), pg.image.load('dan9.png'),pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('dan9.png'), pg.image.load('dan9.png'),pg.image.load('da1.png'),pg.image.load('da2.png'), pg.image.load('da3.png'), pg.image.load('da4.png'), pg.image.load('da5.png'), pg.image.load('da6.png'),pg.image.load('da7.png'), pg.image.load('da8.png'), pg.image.load('dan9.png'), pg.image.load('dan9.png')]
+accR = [pg.image.load('img/d1.png'),pg.image.load('img/d2.png'), pg.image.load('img/d3.png'), pg.image.load('img/d4.png'), pg.image.load('img/d5.png'), pg.image.load('img/d6.png'),pg.image.load('img/d7.png'), pg.image.load('img/d8.png'), pg.image.load('img/d9.png'), pg.image.load('img/d9.png'),pg.image.load('img/d1.png'),pg.image.load('img/d2.png'), pg.image.load('img/d3.png'), pg.image.load('img/d4.png'), pg.image.load('img/d5.png'), pg.image.load('img/d6.png'),pg.image.load('img/d7.png'), pg.image.load('img/d8.png'), pg.image.load('img/d9.png'), pg.image.load('img/d9.png'),pg.image.load('img/d1.png'),pg.image.load('img/d2.png'), pg.image.load('img/d3.png'), pg.image.load('img/d4.png'), pg.image.load('img/d5.png'), pg.image.load('img/d6.png'),pg.image.load('img/d7.png'), pg.image.load('img/d8.png'), pg.image.load('img/d9.png'), pg.image.load('img/d9.png')]
+accL = [pg.image.load('img/d1.png'),pg.image.load('img/d2.png'), pg.image.load('img/d3.png'), pg.image.load('img/d4.png'), pg.image.load('img/d5.png'), pg.image.load('img/d6.png'),pg.image.load('img/d7.png'), pg.image.load('img/d8.png'), pg.image.load('img/dr9.png'), pg.image.load('img/dr9.png'),pg.image.load('img/d1.png'),pg.image.load('img/d2.png'), pg.image.load('img/d3.png'), pg.image.load('img/d4.png'), pg.image.load('img/d5.png'), pg.image.load('img/d6.png'),pg.image.load('img/d7.png'), pg.image.load('img/d8.png'), pg.image.load('img/dr9.png'), pg.image.load('img/dr9.png'),pg.image.load('img/d1.png'),pg.image.load('img/d2.png'), pg.image.load('img/d3.png'), pg.image.load('img/d4.png'), pg.image.load('img/d5.png'), pg.image.load('img/d6.png'),pg.image.load('img/d7.png'), pg.image.load('img/d8.png'), pg.image.load('img/dr9.png'), pg.image.load('img/dr9.png')]
+accUP = [pg.image.load('img/da1.png'),pg.image.load('img/da2.png'), pg.image.load('img/da3.png'), pg.image.load('img/da4.png'), pg.image.load('img/da5.png'), pg.image.load('img/da6.png'),pg.image.load('img/da7.png'), pg.image.load('img/da8.png'), pg.image.load('img/da9.png'), pg.image.load('img/da9.png'),pg.image.load('img/da1.png'),pg.image.load('img/da2.png'), pg.image.load('img/da3.png'), pg.image.load('img/da4.png'), pg.image.load('img/da5.png'), pg.image.load('img/da6.png'),pg.image.load('img/da7.png'), pg.image.load('img/da8.png'), pg.image.load('img/da9.png'), pg.image.load('img/da9.png'),pg.image.load('img/da1.png'),pg.image.load('img/da2.png'), pg.image.load('img/da3.png'), pg.image.load('img/da4.png'), pg.image.load('img/da5.png'), pg.image.load('img/da6.png'),pg.image.load('img/da7.png'), pg.image.load('img/da8.png'), pg.image.load('img/da9.png'), pg.image.load('img/da9.png')]
+accDOWN = [pg.image.load('img/da1.png'),pg.image.load('img/da2.png'), pg.image.load('img/da3.png'), pg.image.load('img/da4.png'), pg.image.load('img/da5.png'), pg.image.load('img/da6.png'),pg.image.load('img/da7.png'), pg.image.load('img/da8.png'), pg.image.load('img/dan9.png'), pg.image.load('img/dan9.png'),pg.image.load('img/da1.png'),pg.image.load('img/da2.png'), pg.image.load('img/da3.png'), pg.image.load('img/da4.png'), pg.image.load('img/da5.png'), pg.image.load('img/da6.png'),pg.image.load('img/da7.png'), pg.image.load('img/da8.png'), pg.image.load('img/dan9.png'), pg.image.load('img/dan9.png'),pg.image.load('img/da1.png'),pg.image.load('img/da2.png'), pg.image.load('img/da3.png'), pg.image.load('img/da4.png'), pg.image.load('img/da5.png'), pg.image.load('img/da6.png'),pg.image.load('img/da7.png'), pg.image.load('img/da8.png'), pg.image.load('img/dan9.png'), pg.image.load('img/dan9.png')]
 
 
 # IMPORTANT GAME VARIABLES
-#clock for fps control
+#clock for fps and time control
 clock = pg.time.Clock()
 fps = 60
+current_time = 0
+game_time = 0
+
+# controls time, if 0 then player starts again
+countdown = 120
+
 # game state
 game_over = 0
+
 # level control
-max_level = 4
+max_level = 11
 level = 1
 
+# score
+moon_score = 0
 
+
+# draws ingame text
+def draw_text(text, text_col, size, x, y):
+    font = pg.font.SysFont('modernno20', size, False, False) 
+    img = font.render(text, True, text_col)
+    asil.window.blit(img, (x, y))
+
+def reset_level(level):
+    man.reset(410, 620, 64, 64)    
+    if path.exists(f'levels/level{level}_data'):
+        pickle_in = open(f'levels/level{level}_data', 'rb')
+        World_Data = pickle.load(pickle_in)
+
+    dunya = world(World_Data)
+    
+    return dunya
 
 class game():
     
@@ -81,7 +113,7 @@ class game():
         
         #size of the tiles and obstacles 
         self.tile_size = 50
-        
+
         #menu classes from Menu.py
         self.main_menu = mainmenu(self)
         self.options = options(self)
@@ -89,23 +121,62 @@ class game():
         self.quit = Quit(self)
         self.current_menu = self.main_menu
         
-        
+
     
     def gameloop(self):
         global game_over
-        
+        global level
+        global max_level
+        global world_data
+        global dunya
+        global moon_score
+        global game_time
+        global current_time
+        global countdown
+           
         # here is the game(loop)
         while self.playing:
             #fps
            clock.tick(fps)
+           game_time = pg.time.get_ticks()
+           countdown -= 0.025
+           if countdown <= 0:
+               level = 1
+               world_data = []
+               dunya = reset_level(level)
+               game_over = 0  
+               moon_score = 0
+               countdown = 120
+               
            self.check_events()
            #stops the infinite loop 
            if self.START_KEY:
                 self.playing = False
-                
+                game_time = 0
+                current_time = 0
+   
            #handles the controls and movement of the player/man
            game_over = man.controls(game_over)
+
            
+           # level completed go to the next level
+           if game_over == 1:
+               level += 1
+               if level <= max_level:
+    #               reset level
+                   world_data = []
+                   dunya = reset_level(level)
+                   game_over = 0
+               else:
+                   if restart_Gbutton.draw():
+        #               restar game option
+                       level = 1
+                       world_data = []
+                       dunya = reset_level(level)
+                       game_over = 0  
+                       moon_score = 0
+                       countdown = 120
+                       
            #blits screen and handles the animtions
            redrawScreen()
            
@@ -139,7 +210,7 @@ class game():
     def reset_keys(self):
         self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY = False, False, False, False
     
-    # funtion to draw text with
+    # funtion to draw text with for the menu's
     def draw_text(self, text, size, x, y):
         font1 = pg.font.SysFont('modernno20', size, False, False)
         text_surface = font1.render(text, True, (0,0,0))
@@ -155,7 +226,7 @@ class world():
         
         # catapult tiles up
         self.tile_list_catapultup = []
-        kirmizi_img = pg.image.load('Decor_Brick.png')
+        kirmizi_img = pg.image.load('img/Decor_Brick.png')
         
         # catapult tiles down
         self.tile_list_catapultdown = []
@@ -172,7 +243,7 @@ class world():
         # diken / thorn
         self.tile_list_diken = []
             # up (normal) thorn
-        diken_img = pg.image.load('Spikes.png')
+        diken_img = pg.image.load('img/Spikes.png')
             # down thorn
         down_diken_img = pg.transform.rotate(diken_img, 180)
             # horizontal : left thorn
@@ -180,9 +251,9 @@ class world():
             # horizontal : left thorn
         right_diken_img = pg.transform.rotate(diken_img, -90)
             # right corner thorn
-        skose_diken_img = pg.image.load('skose_diken4.png')
+        skose_diken_img = pg.image.load('img/skose_diken4.png')
             # left corner thorn
-        lkose_diken_img = pg.image.load('lkose_diken3.png')
+        lkose_diken_img = pg.image.load('img/lkose_diken3.png')
             # up right corner thorn
         upskose_diken_img = pg.transform.rotate(skose_diken_img, 90)
             # up left corner thorn
@@ -192,12 +263,17 @@ class world():
         # walls / stones
         self.tile_list_wall = []
             # red/pink stone
-        stone_img = pg.image.load('Brick_01.png')
+        stone_img = pg.image.load('img/Brick_01.png')
         
-        # door / portal
-        self.tile_list_door = []
+        # spawn 
+        self.tile_list_spawn = []
             # looks like the moon
-        ay_door = pg.image.load('Moon_asset.png')
+        ay_spawn = pg.image.load('img/Moon_asset.png')
+        
+        # gate / portal
+        self.tile_list_portal = []
+        blackhole = pg.image.load('img/BlackHole.png')
+        moon_portal = pg.image.load('img/Back_moon.png')
         
         rowP = 0
         for row in data :
@@ -337,15 +413,31 @@ class world():
                     tile = (img, img_rect)
                     self.tile_list_diken.append(tile)
                 
-                # doors
+                # spawn
                 if tile == 5:
-                    img = pg.transform.scale(ay_door, (100, 100))
+                    img = pg.transform.scale(ay_spawn, (100, 100))
                     img_rect = img.get_rect()
                     img_rect.x = colP * asil.tile_size
                     img_rect.y = rowP * asil.tile_size 
                     tile = (img, img_rect)
-                    self.tile_list_door.append(tile)      
-
+                    self.tile_list_spawn.append(tile)   
+                    
+                # portal
+                if tile == 17:
+                    img = pg.transform.scale(blackhole, (asil.tile_size, asil.tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = colP * asil.tile_size
+                    img_rect.y = rowP * asil.tile_size 
+                    tile = (img, img_rect)
+                    self.tile_list_portal.append(tile)
+                
+                if tile == 18:
+                    img = pg.transform.scale(moon_portal, (1200, 1200))
+                    img_rect = img.get_rect()
+                    img_rect.x = colP * asil.tile_size
+                    img_rect.y = rowP * asil.tile_size 
+                    tile = (img, img_rect)
+                    self.tile_list_portal.append(tile)   
                     
         
                 colP += 1
@@ -386,7 +478,12 @@ class world():
 #            pg.draw.rect(asil.window, (0,255,0), tile[1], 2)
             
     
-        for tile in self.tile_list_door:
+        for tile in self.tile_list_spawn:
+            asil.window.blit(tile[0], tile[1])
+            # draws a green rectangle around the tiles
+#            pg.draw.rect(asil.window, (0,255,0), tile[1], 2)
+            
+        for tile in self.tile_list_portal:
             asil.window.blit(tile[0], tile[1])
             # draws a green rectangle around the tiles
 #            pg.draw.rect(asil.window, (0,255,0), tile[1], 2)
@@ -428,7 +525,6 @@ class button():
         
         
 class player():
-
     def __init__(self, playerx, playery, width, height):
         self.reset(playerx, playery, width, height)
         
@@ -463,13 +559,13 @@ class player():
         
         else:
             if self.right:
-                screen.blit(pg.image.load('StandingRight.png'), (self.playerx, self.playery))
+                screen.blit(pg.image.load('img/StandingRight.png'), (self.playerx, self.playery))
             if self.left:
-                screen.blit(pg.image.load('StandingLeft.png'), (self.playerx, self.playery))
+                screen.blit(pg.image.load('img/StandingLeft.png'), (self.playerx, self.playery))
             if self.up:
-                screen.blit(pg.image.load('wb.png'), (self.playerx, self.playery))
+                screen.blit(pg.image.load('img/wb.png'), (self.playerx, self.playery))
             if self.down:
-                screen.blit(pg.image.load('wu.png'), (self.playerx, self.playery))
+                screen.blit(pg.image.load('img/wu.png'), (self.playerx, self.playery))
 
 
 
@@ -503,21 +599,21 @@ class player():
             if self.jump == False:
                 
                 if self.right:
-                    screen.blit(pg.image.load('StandingRight.png'), (self.playerx, self.playery))
+                    screen.blit(pg.image.load('img/StandingRight.png'), (self.playerx, self.playery))
                 if self.left:
-                    screen.blit(pg.image.load('StandingLeft.png'), (self.playerx, self.playery))
+                    screen.blit(pg.image.load('img/StandingLeft.png'), (self.playerx, self.playery))
                 if self.up:
-                    screen.blit(pg.image.load('wb.png'), (self.playerx, self.playery))
+                    screen.blit(pg.image.load('img/wb.png'), (self.playerx, self.playery))
                 if self.down:
-                    screen.blit(pg.image.load('wu.png'), (self.playerx, self.playery))
+                    screen.blit(pg.image.load('img/wu.png'), (self.playerx, self.playery))
             else:
-                screen.blit(pg.image.load('karakter.png'), (self.playerx, self.playery))
+                screen.blit(pg.image.load('img/karakter.png'), (self.playerx, self.playery))
 
             
 # controls and movement for the player                   
     def controls(self, game_over):
+       global moon_score
        if game_over == 0:
-           
             # controls and movement
            keys = pg.key.get_pressed()
            
@@ -582,33 +678,6 @@ class player():
                self.walkP = 0
                self.accP = 0
         
-# this whole chunk of code is to jump but I use it to stop sticking on the floor             
-           if not(self.jump):
-                   
-               if keys[pg.K_SPACE]:
-                   self.jump = True
-                   self.left = False
-                   self.right = False
-                   self.walkP = 0
-                   self.accP = 0
-                   self.accleft = False
-                   self.accright = False
-                   self.accdown = False
-                   self.accup = False
-                   self.up = False
-                   self.down = False
-                   
-                   
-           else:
-               if self.jumpP >= -10 and self.in_air == False:
-                   neg = 1
-                   if self.jumpP < 0:
-                       neg = -1
-                   self.playery -= (self.jumpP ** 2) * self.jumpheight * neg
-                   self.jumpP -= 2
-               else:
-                   self.jump = False
-                   self.jumpP = 10
     
     
 # this is to accelerate                    
@@ -694,23 +763,30 @@ class player():
                    if self.jumpP == 10:
                        self.playerx = tile[1].left - char.get_rect().right
                        
-            # diken
+            # thorn
            for tile in dunya.tile_list_diken:
                if tile[1].colliderect(self.hitbox):
                    game_over = game_over - 1
                    #debugging 
-                   print(game_over)
+#                   print(game_over)
                    
-            # door
-           for tile in dunya.tile_list_door:                   
-               if tile[1].collidepoint(self.playerx, self.playery):
-                   game_over = 1
-                   if game_over == 1:
-                       man.reset(410, 620, 64, 64)
-                       dunya.tile_list_door.remove(tile)
-                   # debug
-                   print(game_over)
+            # spawn
+           for tile in dunya.tile_list_spawn:    
+               if tile[1].colliderect(self.hitbox):
+                   man.reset(410, 620, 64, 64)
+                   dunya.tile_list_spawn.remove(tile)
                    game_over = 0
+                   moon_score += 1
+                   print(moon_score)
+           
+            # portal (to the next level)
+           for tile in dunya.tile_list_portal:
+               if tile[1].colliderect(self.hitbox):
+                   portal_fx.play()
+                   pg.time.delay(350)
+                   game_over = 1
+                   
+                   
 
             # walls with blowback
            for tile in dunya.tile_list_wall:
@@ -732,7 +808,7 @@ class player():
                    self.playery -= self.blowback
                
                 
-               
+                                          
        return game_over    
 
 # sets the entire data of the player back to default
@@ -768,11 +844,19 @@ class player():
 asil = game()
 man = player(410, 620, 64, 64)         
 restart_button = button(asil.X1 // 2 , asil.Y1 // 2, restart_img) 
-World_Data = []
+restart_Gbutton = button(asil.X1 // 2 , asil.Y1 // 2, restartgame_img)
 
-pickle_in = open(f'level{level}_data', 'rb')
-World_Data = pickle.load(pickle_in)
+# load levels in
+World_Data = []
+if path.exists(f'levels/level{level}_data'):
+    pickle_in = open(f'levels/level{level}_data', 'rb')
+    World_Data = pickle.load(pickle_in)
+
 dunya = world(World_Data)
+
+
+if asil.current_menu == asil.main_menu:
+    current_time = pg.time.get_ticks()
 
 
 # accelerate ;
@@ -800,26 +884,55 @@ def accny():
 # does all the blitting and drawing stuff
 def redrawScreen():   
    global game_over
+   global world_data
+   global dunya
+   global moon_score
+   global current_time
+   global game_time
+   global countdown
+   
+   # blits the background
    asil.window.blit(bg, (0,0))
    
+   # draws the tiles
    dunya.draw()
    
+   # draws text on the screen
+        # keeps count of collected moons
+   draw_text('moons : ' + str(moon_score), (255,255,255),asil.tile_size // 2, 25 , 25)
+       # keeps track of in-game time
+   draw_text('time : ' + str(game_time - current_time), (255,255,255), asil.tile_size // 2, 25 , 75)
+       # displays the countdown 
+   draw_text('countdown : ' + str(int(countdown)), (255,255,255), asil.tile_size // 2, 25 , 125)
+       # displays current level
+   draw_text('level : ' + str(level) + '/' + str(max_level), (255,255,255), asil.tile_size // 2, 25 , 175)
+   
+   # player's hitbox
    man.hitbox = (man.playerx, man.playery, 60, 60)
    pg.draw.rect(asil.window, (255,255,255), man.hitbox, 2)
-   
+       
       #if player is dead
    if game_over <= -1:
        if restart_button.draw():
-           man.reset(410, 620, 64, 64)
+           world_data = []
+           dunya = reset_level(level)
            game_over = 0
-   
+           moon_score = 0
+
+    # game completed 
+   if level > max_level:
+        restart_Gbutton.draw()
+        draw_text('congratulations, you made it to the moon', (192,192,192), 50, 300, 100)
+       
    man.walkA(asil.window)
        
    man.accA(asil.window)
    
    man.deadA(asil.window, game_over)
+   
 
    #update window
    pg.display.update()
+   
    
    
