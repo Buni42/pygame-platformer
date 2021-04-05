@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Created on Mon Apr  5 23:46:32 2021
+
+@author: bunyamin anil
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Sun Sep  6 14:13:22 2020
 
 @author: bunyamin anil
@@ -21,32 +28,37 @@ mixer.music.set_volume(0.85)
 
 # effects
 portal_fx = mixer.Sound('music/portal_fx.wav')
+last_portal_fx = mixer.Sound('music/ultra_instinct.wav')
 
+pg.display.set_mode((1400, 800))
 
 #lay-out
 pg.display.set_caption('to the moon')
-icon = pg.image.load('img/Moon_asset_r.png')
+icon = pg.image.load('img/Moon_asset_r.png').convert_alpha()
 pg.display.set_icon(icon)
-bg = pg.image.load('img/sky.png')
-restart_img = pg.image.load('img/restart_icon.png')
+bg = pg.image.load('img/sky.png').convert_alpha()
+restart_img = pg.image.load('img/restart_icon.png').convert_alpha()
 restart_img = pg.transform.scale(restart_img, (120, 125))
-restartgame_img = pg.image.load('img/restartgame.png')
+restartgame_img = pg.image.load('img/restartgame.png').convert_alpha()
+bg2 = pg.image.load('img/WV.png').convert_alpha()
+bg2 = pg.transform.scale(bg2, (1400, 800))
+
 
 # png's for player 
-char = pg.image.load('img/karakter.png')
-ghost = pg.image.load('img/dead.png')   
+char = pg.image.load('img/karakter.png').convert_alpha()
+ghost = pg.image.load('img/dead.png').convert_alpha()
 
 
 #lists of png for animations     
-walkright = [pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png'),pg.image.load('img/StandingRight.png')]
-walkleft = [pg.image.load('img/StandingLeft.png'), pg.image.load('img/StandingLeft.png'),pg.image.load('img/StandingLeft.png'), pg.image.load('img/StandingLeft.png'), pg.image.load('img/StandingLeft.png'), pg.image.load('img/StandingLeft.png'), pg.image.load('img/StandingLeft.png'), pg.image.load('img/StandingLeft.png'), pg.image.load('img/StandingLeft.png'), pg.image.load('img/StandingLeft.png')]
-walkabove = [pg.image.load('img/wb.png'), pg.image.load('img/wb.png'),pg.image.load('img/wb.png'), pg.image.load('img/wb.png'), pg.image.load('img/wb.png'), pg.image.load('img/wb.png'), pg.image.load('img/wb.png'), pg.image.load('img/wb.png'), pg.image.load('img/wb.png'), pg.image.load('img/wb.png')]
-walkdown = [pg.image.load('img/wu.png'), pg.image.load('img/wu.png'),pg.image.load('img/wu.png'), pg.image.load('img/wu.png'), pg.image.load('img/wu.png'), pg.image.load('img/wu.png'), pg.image.load('img/wu.png'), pg.image.load('img/wu.png'), pg.image.load('img/wu.png'), pg.image.load('img/wu.png')]
+walkright = [pg.image.load('img/StandingRight.png').convert_alpha(),pg.image.load('img/StandingRight.png').convert_alpha(),pg.image.load('img/StandingRight.png').convert_alpha(),pg.image.load('img/StandingRight.png').convert_alpha(),pg.image.load('img/StandingRight.png').convert_alpha(),pg.image.load('img/StandingRight.png').convert_alpha(),pg.image.load('img/StandingRight.png').convert_alpha(),pg.image.load('img/StandingRight.png').convert_alpha(),pg.image.load('img/StandingRight.png').convert_alpha(),pg.image.load('img/StandingRight.png').convert_alpha()]
+walkleft = [pg.image.load('img/StandingLeft.png').convert_alpha(), pg.image.load('img/StandingLeft.png').convert_alpha(),pg.image.load('img/StandingLeft.png').convert_alpha(), pg.image.load('img/StandingLeft.png').convert_alpha(), pg.image.load('img/StandingLeft.png').convert_alpha(), pg.image.load('img/StandingLeft.png').convert_alpha(), pg.image.load('img/StandingLeft.png').convert_alpha(), pg.image.load('img/StandingLeft.png').convert_alpha(), pg.image.load('img/StandingLeft.png').convert_alpha(), pg.image.load('img/StandingLeft.png').convert_alpha()]
+walkabove = [pg.image.load('img/wb.png').convert_alpha(), pg.image.load('img/wb.png').convert_alpha(),pg.image.load('img/wb.png').convert_alpha(), pg.image.load('img/wb.png').convert_alpha(), pg.image.load('img/wb.png').convert_alpha(), pg.image.load('img/wb.png').convert_alpha(), pg.image.load('img/wb.png').convert_alpha(), pg.image.load('img/wb.png').convert_alpha(), pg.image.load('img/wb.png').convert_alpha(), pg.image.load('img/wb.png').convert_alpha()]
+walkdown = [pg.image.load('img/wu.png').convert_alpha(), pg.image.load('img/wu.png').convert_alpha(),pg.image.load('img/wu.png').convert_alpha(), pg.image.load('img/wu.png').convert_alpha(), pg.image.load('img/wu.png').convert_alpha(), pg.image.load('img/wu.png').convert_alpha(), pg.image.load('img/wu.png').convert_alpha(), pg.image.load('img/wu.png').convert_alpha(), pg.image.load('img/wu.png').convert_alpha(), pg.image.load('img/wu.png').convert_alpha()]
 
-accR = [pg.image.load('img/d1.png'),pg.image.load('img/d2.png'), pg.image.load('img/d3.png'), pg.image.load('img/d4.png'), pg.image.load('img/d5.png'), pg.image.load('img/d6.png'),pg.image.load('img/d7.png'), pg.image.load('img/d8.png'), pg.image.load('img/d9.png'), pg.image.load('img/d9.png'),pg.image.load('img/d1.png'),pg.image.load('img/d2.png'), pg.image.load('img/d3.png'), pg.image.load('img/d4.png'), pg.image.load('img/d5.png'), pg.image.load('img/d6.png'),pg.image.load('img/d7.png'), pg.image.load('img/d8.png'), pg.image.load('img/d9.png'), pg.image.load('img/d9.png'),pg.image.load('img/d1.png'),pg.image.load('img/d2.png'), pg.image.load('img/d3.png'), pg.image.load('img/d4.png'), pg.image.load('img/d5.png'), pg.image.load('img/d6.png'),pg.image.load('img/d7.png'), pg.image.load('img/d8.png'), pg.image.load('img/d9.png'), pg.image.load('img/d9.png')]
-accL = [pg.image.load('img/d1.png'),pg.image.load('img/d2.png'), pg.image.load('img/d3.png'), pg.image.load('img/d4.png'), pg.image.load('img/d5.png'), pg.image.load('img/d6.png'),pg.image.load('img/d7.png'), pg.image.load('img/d8.png'), pg.image.load('img/dr9.png'), pg.image.load('img/dr9.png'),pg.image.load('img/d1.png'),pg.image.load('img/d2.png'), pg.image.load('img/d3.png'), pg.image.load('img/d4.png'), pg.image.load('img/d5.png'), pg.image.load('img/d6.png'),pg.image.load('img/d7.png'), pg.image.load('img/d8.png'), pg.image.load('img/dr9.png'), pg.image.load('img/dr9.png'),pg.image.load('img/d1.png'),pg.image.load('img/d2.png'), pg.image.load('img/d3.png'), pg.image.load('img/d4.png'), pg.image.load('img/d5.png'), pg.image.load('img/d6.png'),pg.image.load('img/d7.png'), pg.image.load('img/d8.png'), pg.image.load('img/dr9.png'), pg.image.load('img/dr9.png')]
-accUP = [pg.image.load('img/da1.png'),pg.image.load('img/da2.png'), pg.image.load('img/da3.png'), pg.image.load('img/da4.png'), pg.image.load('img/da5.png'), pg.image.load('img/da6.png'),pg.image.load('img/da7.png'), pg.image.load('img/da8.png'), pg.image.load('img/da9.png'), pg.image.load('img/da9.png'),pg.image.load('img/da1.png'),pg.image.load('img/da2.png'), pg.image.load('img/da3.png'), pg.image.load('img/da4.png'), pg.image.load('img/da5.png'), pg.image.load('img/da6.png'),pg.image.load('img/da7.png'), pg.image.load('img/da8.png'), pg.image.load('img/da9.png'), pg.image.load('img/da9.png'),pg.image.load('img/da1.png'),pg.image.load('img/da2.png'), pg.image.load('img/da3.png'), pg.image.load('img/da4.png'), pg.image.load('img/da5.png'), pg.image.load('img/da6.png'),pg.image.load('img/da7.png'), pg.image.load('img/da8.png'), pg.image.load('img/da9.png'), pg.image.load('img/da9.png')]
-accDOWN = [pg.image.load('img/da1.png'),pg.image.load('img/da2.png'), pg.image.load('img/da3.png'), pg.image.load('img/da4.png'), pg.image.load('img/da5.png'), pg.image.load('img/da6.png'),pg.image.load('img/da7.png'), pg.image.load('img/da8.png'), pg.image.load('img/dan9.png'), pg.image.load('img/dan9.png'),pg.image.load('img/da1.png'),pg.image.load('img/da2.png'), pg.image.load('img/da3.png'), pg.image.load('img/da4.png'), pg.image.load('img/da5.png'), pg.image.load('img/da6.png'),pg.image.load('img/da7.png'), pg.image.load('img/da8.png'), pg.image.load('img/dan9.png'), pg.image.load('img/dan9.png'),pg.image.load('img/da1.png'),pg.image.load('img/da2.png'), pg.image.load('img/da3.png'), pg.image.load('img/da4.png'), pg.image.load('img/da5.png'), pg.image.load('img/da6.png'),pg.image.load('img/da7.png'), pg.image.load('img/da8.png'), pg.image.load('img/dan9.png'), pg.image.load('img/dan9.png')]
+accR = [pg.image.load('img/d1.png').convert_alpha(),pg.image.load('img/d2.png').convert_alpha(), pg.image.load('img/d3.png').convert_alpha(), pg.image.load('img/d4.png').convert_alpha(), pg.image.load('img/d5.png').convert_alpha(), pg.image.load('img/d6.png').convert_alpha(),pg.image.load('img/d7.png').convert_alpha(), pg.image.load('img/d8.png').convert_alpha(), pg.image.load('img/d9.png').convert_alpha(), pg.image.load('img/d9.png').convert_alpha(),pg.image.load('img/d1.png').convert_alpha(),pg.image.load('img/d2.png').convert_alpha(), pg.image.load('img/d3.png').convert_alpha(), pg.image.load('img/d4.png').convert_alpha(), pg.image.load('img/d5.png').convert_alpha(), pg.image.load('img/d6.png').convert_alpha(),pg.image.load('img/d7.png').convert_alpha(), pg.image.load('img/d8.png').convert_alpha(), pg.image.load('img/d9.png').convert_alpha(), pg.image.load('img/d9.png').convert_alpha(),pg.image.load('img/d1.png').convert_alpha(),pg.image.load('img/d2.png').convert_alpha(), pg.image.load('img/d3.png').convert_alpha(), pg.image.load('img/d4.png').convert_alpha(), pg.image.load('img/d5.png').convert_alpha(), pg.image.load('img/d6.png').convert_alpha(),pg.image.load('img/d7.png').convert_alpha(), pg.image.load('img/d8.png').convert_alpha(), pg.image.load('img/d9.png').convert_alpha(), pg.image.load('img/d9.png').convert_alpha()]
+accL = [pg.image.load('img/d1.png').convert_alpha(),pg.image.load('img/d2.png').convert_alpha(), pg.image.load('img/d3.png').convert_alpha(), pg.image.load('img/d4.png').convert_alpha(), pg.image.load('img/d5.png').convert_alpha(), pg.image.load('img/d6.png').convert_alpha(),pg.image.load('img/d7.png').convert_alpha(), pg.image.load('img/d8.png').convert_alpha(), pg.image.load('img/dr9.png'), pg.image.load('img/dr9.png'),pg.image.load('img/d1.png').convert_alpha(),pg.image.load('img/d2.png').convert_alpha(), pg.image.load('img/d3.png').convert_alpha(), pg.image.load('img/d4.png').convert_alpha(), pg.image.load('img/d5.png').convert_alpha(), pg.image.load('img/d6.png').convert_alpha(),pg.image.load('img/d7.png').convert_alpha(), pg.image.load('img/d8.png').convert_alpha(), pg.image.load('img/dr9.png'), pg.image.load('img/dr9.png'),pg.image.load('img/d1.png').convert_alpha(),pg.image.load('img/d2.png').convert_alpha(), pg.image.load('img/d3.png').convert_alpha(), pg.image.load('img/d4.png').convert_alpha(), pg.image.load('img/d5.png').convert_alpha(), pg.image.load('img/d6.png').convert_alpha(),pg.image.load('img/d7.png').convert_alpha(), pg.image.load('img/d8.png').convert_alpha(), pg.image.load('img/dr9.png'), pg.image.load('img/dr9.png')]
+accUP = [pg.image.load('img/da1.png').convert_alpha(),pg.image.load('img/da2.png').convert_alpha(), pg.image.load('img/da3.png').convert_alpha(), pg.image.load('img/da4.png').convert_alpha(), pg.image.load('img/da5.png').convert_alpha(), pg.image.load('img/da6.png').convert_alpha(),pg.image.load('img/da7.png').convert_alpha(), pg.image.load('img/da8.png').convert_alpha(), pg.image.load('img/da9.png').convert_alpha(), pg.image.load('img/da9.png').convert_alpha(),pg.image.load('img/da1.png').convert_alpha(),pg.image.load('img/da2.png').convert_alpha(), pg.image.load('img/da3.png').convert_alpha(), pg.image.load('img/da4.png').convert_alpha(), pg.image.load('img/da5.png').convert_alpha(), pg.image.load('img/da6.png').convert_alpha(),pg.image.load('img/da7.png').convert_alpha(), pg.image.load('img/da8.png').convert_alpha(), pg.image.load('img/da9.png').convert_alpha(), pg.image.load('img/da9.png').convert_alpha(),pg.image.load('img/da1.png').convert_alpha(),pg.image.load('img/da2.png').convert_alpha(), pg.image.load('img/da3.png').convert_alpha(), pg.image.load('img/da4.png').convert_alpha(), pg.image.load('img/da5.png').convert_alpha(), pg.image.load('img/da6.png').convert_alpha(),pg.image.load('img/da7.png').convert_alpha(), pg.image.load('img/da8.png').convert_alpha(), pg.image.load('img/da9.png').convert_alpha(), pg.image.load('img/da9.png').convert_alpha()]
+accDOWN = [pg.image.load('img/da1.png').convert_alpha(),pg.image.load('img/da2.png').convert_alpha(), pg.image.load('img/da3.png').convert_alpha(), pg.image.load('img/da4.png').convert_alpha(), pg.image.load('img/da5.png').convert_alpha(), pg.image.load('img/da6.png').convert_alpha(),pg.image.load('img/da7.png').convert_alpha(), pg.image.load('img/da8.png').convert_alpha(), pg.image.load('img/dan9.png').convert_alpha(), pg.image.load('img/dan9.png').convert_alpha(),pg.image.load('img/da1.png').convert_alpha(),pg.image.load('img/da2.png').convert_alpha(), pg.image.load('img/da3.png').convert_alpha(), pg.image.load('img/da4.png').convert_alpha(), pg.image.load('img/da5.png').convert_alpha(), pg.image.load('img/da6.png').convert_alpha(),pg.image.load('img/da7.png').convert_alpha(), pg.image.load('img/da8.png').convert_alpha(), pg.image.load('img/dan9.png').convert_alpha(), pg.image.load('img/dan9.png').convert_alpha(),pg.image.load('img/da1.png').convert_alpha(),pg.image.load('img/da2.png').convert_alpha(), pg.image.load('img/da3.png').convert_alpha(), pg.image.load('img/da4.png').convert_alpha(), pg.image.load('img/da5.png').convert_alpha(), pg.image.load('img/da6.png').convert_alpha(),pg.image.load('img/da7.png').convert_alpha(), pg.image.load('img/da8.png').convert_alpha(), pg.image.load('img/dan9.png').convert_alpha(), pg.image.load('img/dan9.png').convert_alpha()]
 
 
 # IMPORTANT GAME VARIABLES
@@ -56,14 +68,14 @@ fps = 60
 current_time = 0
 game_time = 0
 
-# controls time, if 0 then player starts again
+# controls time, if 0 then player starts again (from level 1)
 countdown = 120
 
 # game state
 game_over = 0
 
 # level control
-max_level = 11
+max_level = 10
 level = 1
 
 # score
@@ -76,6 +88,7 @@ def draw_text(text, text_col, size, x, y):
     img = font.render(text, True, text_col)
     asil.window.blit(img, (x, y))
 
+#resets level data with pickle
 def reset_level(level):
     man.reset(410, 620, 64, 64)    
     if path.exists(f'levels/level{level}_data'):
@@ -85,6 +98,14 @@ def reset_level(level):
     dunya = world(World_Data)
     
     return dunya
+
+
+font = pg.font.SysFont("Arial", 18)
+def update_fps():
+	fps = str(int(clock.get_fps()))
+	fps_text = font.render(fps, 1, pg.Color("green"))
+	return fps_text
+
 
 class game():
     
@@ -103,7 +124,7 @@ class game():
         self.X1, self.Y1 = 1400, 800
         
         #fullscreen or not
-        self.fullscreen = False
+        self.fullscreen = True
         if self.fullscreen == True:
             self.window = pg.display.set_mode(self.screen_size, pg.FULLSCREEN)
         else:
@@ -139,7 +160,11 @@ class game():
             #fps
            clock.tick(fps)
            game_time = pg.time.get_ticks()
-           countdown -= 0.025
+           
+           # game countdown
+           if level < max_level:
+               countdown -= 0.017
+           # mission failed so player returns to level 1
            if countdown <= 0:
                level = 1
                world_data = []
@@ -162,21 +187,24 @@ class game():
            # level completed go to the next level
            if game_over == 1:
                level += 1
+               countdown += 5
                if level <= max_level:
     #               reset level
                    world_data = []
                    dunya = reset_level(level)
                    game_over = 0
+
                else:
                    if restart_Gbutton.draw():
-        #               restar game option
+        #               restart game 
                        level = 1
                        world_data = []
                        dunya = reset_level(level)
                        game_over = 0  
                        moon_score = 0
                        countdown = 120
-                       
+                       mixer.music.unpause()
+          
            #blits screen and handles the animtions
            redrawScreen()
            
@@ -226,7 +254,7 @@ class world():
         
         # catapult tiles up
         self.tile_list_catapultup = []
-        kirmizi_img = pg.image.load('img/Decor_Brick.png')
+        kirmizi_img = pg.image.load('img/Decor_Brick.png').convert_alpha()
         
         # catapult tiles down
         self.tile_list_catapultdown = []
@@ -243,7 +271,7 @@ class world():
         # diken / thorn
         self.tile_list_diken = []
             # up (normal) thorn
-        diken_img = pg.image.load('img/Spikes.png')
+        diken_img = pg.image.load('img/Spikes.png').convert_alpha()
             # down thorn
         down_diken_img = pg.transform.rotate(diken_img, 180)
             # horizontal : left thorn
@@ -251,9 +279,9 @@ class world():
             # horizontal : left thorn
         right_diken_img = pg.transform.rotate(diken_img, -90)
             # right corner thorn
-        skose_diken_img = pg.image.load('img/skose_diken4.png')
+        skose_diken_img = pg.image.load('img/skose_diken4.png').convert_alpha()
             # left corner thorn
-        lkose_diken_img = pg.image.load('img/lkose_diken3.png')
+        lkose_diken_img = pg.image.load('img/lkose_diken3.png').convert_alpha()
             # up right corner thorn
         upskose_diken_img = pg.transform.rotate(skose_diken_img, 90)
             # up left corner thorn
@@ -263,17 +291,17 @@ class world():
         # walls / stones
         self.tile_list_wall = []
             # red/pink stone
-        stone_img = pg.image.load('img/Brick_01.png')
+        stone_img = pg.image.load('img/Brick_01.png').convert_alpha()
         
         # spawn 
         self.tile_list_spawn = []
             # looks like the moon
-        ay_spawn = pg.image.load('img/Moon_asset.png')
+        ay_spawn = pg.image.load('img/Moon_asset.png').convert_alpha()
         
         # gate / portal
         self.tile_list_portal = []
-        blackhole = pg.image.load('img/BlackHole.png')
-        moon_portal = pg.image.load('img/Back_moon.png')
+        blackhole = pg.image.load('img/BlackHole.png').convert_alpha()
+        moon_portal = pg.image.load('img/Back_moon.png').convert_alpha()
         
         rowP = 0
         for row in data :
@@ -559,13 +587,13 @@ class player():
         
         else:
             if self.right:
-                screen.blit(pg.image.load('img/StandingRight.png'), (self.playerx, self.playery))
+                screen.blit(pg.image.load('img/StandingRight.png').convert_alpha(), (self.playerx, self.playery))
             if self.left:
-                screen.blit(pg.image.load('img/StandingLeft.png'), (self.playerx, self.playery))
+                screen.blit(pg.image.load('img/StandingLeft.png').convert_alpha(), (self.playerx, self.playery))
             if self.up:
-                screen.blit(pg.image.load('img/wb.png'), (self.playerx, self.playery))
+                screen.blit(pg.image.load('img/wb.png').convert_alpha(), (self.playerx, self.playery))
             if self.down:
-                screen.blit(pg.image.load('img/wu.png'), (self.playerx, self.playery))
+                screen.blit(pg.image.load('img/wu.png').convert_alpha(), (self.playerx, self.playery))
 
 
 
@@ -599,13 +627,13 @@ class player():
             if self.jump == False:
                 
                 if self.right:
-                    screen.blit(pg.image.load('img/StandingRight.png'), (self.playerx, self.playery))
+                    screen.blit(pg.image.load('img/StandingRight.png').convert_alpha(), (self.playerx, self.playery))
                 if self.left:
-                    screen.blit(pg.image.load('img/StandingLeft.png'), (self.playerx, self.playery))
+                    screen.blit(pg.image.load('img/StandingLeft.png').convert_alpha(), (self.playerx, self.playery))
                 if self.up:
-                    screen.blit(pg.image.load('img/wb.png'), (self.playerx, self.playery))
+                    screen.blit(pg.image.load('img/wb.png').convert_alpha(), (self.playerx, self.playery))
                 if self.down:
-                    screen.blit(pg.image.load('img/wu.png'), (self.playerx, self.playery))
+                    screen.blit(pg.image.load('img/wu.png').convert_alpha(), (self.playerx, self.playery))
             else:
                 screen.blit(pg.image.load('img/karakter.png'), (self.playerx, self.playery))
 
@@ -765,8 +793,8 @@ class player():
                        
             # thorn
            for tile in dunya.tile_list_diken:
-               if tile[1].colliderect(self.hitbox):
-                   game_over = game_over - 1
+               if tile[1].colliderect(man.playerx + 10, man.playery + 10, 40, 40):
+                   game_over -= 1
                    #debugging 
 #                   print(game_over)
                    
@@ -782,10 +810,25 @@ class player():
             # portal (to the next level)
            for tile in dunya.tile_list_portal:
                if tile[1].colliderect(self.hitbox):
-                   portal_fx.play()
-                   pg.time.delay(350)
-                   game_over = 1
+                   # normal portal 
+                   if level < max_level:        
+                       # play the woosh effect
+                       portal_fx.play()
                    
+                    # THE moon
+                   if level >= max_level:
+                       # pause the background music
+                       mixer.music.pause()
+                       # make it more dramatic
+                       pg.time.delay(1000)   
+                       # play the dramatic ultra instinct music 
+                       last_portal_fx.play() 
+                       # wait for the dramatic ultra instinct music to end
+                       pg.time.delay(12000)
+                  
+                    # wait for the woosh effect 
+                   pg.time.delay(600)   
+                   game_over = 1
                    
 
             # walls with blowback
@@ -817,7 +860,7 @@ class player():
         self.playery = playery
         self.width = width
         self.height = height   
-        self.vel = 10
+        self.vel = 7
         self.jump = False
         self.jumpP = 10
         self.left = False
@@ -844,7 +887,7 @@ class player():
 asil = game()
 man = player(410, 620, 64, 64)         
 restart_button = button(asil.X1 // 2 , asil.Y1 // 2, restart_img) 
-restart_Gbutton = button(asil.X1 // 2 , asil.Y1 // 2, restartgame_img)
+restart_Gbutton = button(asil.X1 // 2 -100, asil.Y1 // 2-100, restartgame_img)
 
 # load levels in
 World_Data = []
@@ -863,22 +906,22 @@ if asil.current_menu == asil.main_menu:
 # in x axis
 def accx():
     if man.accright == True:
-        man.playerx += 15
+        man.playerx += 10
         
 # in y axis
 def accy():
     if man.accdown == True:
-       man.playery += 15
+       man.playery += 10
 
 # in negatif x exis
 def accnx():
     if man.accleft == True:
-       man.playerx -= 15
+       man.playerx -= 10
        
 # in negatif y axis
 def accny():
     if man.accup == True:
-        man.playery -= 15
+        man.playery -= 10
 
 
 # does all the blitting and drawing stuff
@@ -909,6 +952,7 @@ def redrawScreen():
    
    # player's hitbox
    man.hitbox = (man.playerx, man.playery, 60, 60)
+   # draw player's hitbox
    pg.draw.rect(asil.window, (255,255,255), man.hitbox, 2)
        
       #if player is dead
@@ -919,20 +963,35 @@ def redrawScreen():
            game_over = 0
            moon_score = 0
 
-    # game completed 
-   if level > max_level:
-        restart_Gbutton.draw()
-        draw_text('congratulations, you made it to the moon', (192,192,192), 50, 300, 100)
-       
+    # player's animatons
    man.walkA(asil.window)
        
    man.accA(asil.window)
    
    man.deadA(asil.window, game_over)
    
-
+    # game completed 
+   if level > max_level:
+       # call the last scene
+        lastscene()
+        
+   # blits the fps on the screen
+   asil.window.blit(update_fps(), (10,0))
+   
    #update window
    pg.display.update()
+
+
+def lastscene():
+   asil.window.blit(bg, (0,0))
    
+   # draws the moon (tile)
+   dunya.draw()
+
+    # draw the end message
+   restart_Gbutton.draw()
+   draw_text('congratulations, you made it to the moon', (192,192,192), 50, 300, 100)
    
+   #update window
+   pg.display.update()
    
