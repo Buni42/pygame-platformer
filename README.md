@@ -1,1 +1,1 @@
-# pygame-platformer but you are in space and trying to catch the moon.
+# platformer but you are in space and trying to catch the moon.
