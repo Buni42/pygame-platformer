@@ -126,7 +126,7 @@ for row in range(max_row):
 	world_data.append(r)
     
     
-print(world_data)
+print('world_data : ' + str(world_data))
 
 
 #function for drawing the world tiles
@@ -228,4 +228,5 @@ while run:
     pygame.display.update()
     
 pygame.quit() 
+    
     
